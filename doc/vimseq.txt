@@ -1,0 +1,111 @@
+*vimseq.txt*  Logseq editing from Neovim
+
+===============================================================================
+CONTENTS                                                        *vimseq*
+
+vimseq is a Lua Neovim plugin for editing Logseq Markdown graphs directly from
+terminal Neovim.
+
+===============================================================================
+CONFIGURATION                                            *vimseq-configuration*
+
+Lua setup:
+>
+  require('vimseq').setup({
+    graph_dir = '~/notes/logseq',
+    journal_date_format = '%Y_%m_%d',
+  })
+<
+
+Classic globals also work:
+>
+  vim.g.vimseq_graph_dir = '~/notes/logseq'
+  vim.g.vimseq_journal_date_format = '%Y_%m_%d'
+<
+
+If no graph_dir is configured, vimseq tries to detect a Logseq graph by walking
+upward from the current Markdown file and looking for:
+>
+  logseq/config.edn
+  pages/
+  journals/
+<
+
+===============================================================================
+COMMANDS                                                    *vimseq-commands*
+
+                                                        *:VimseqToday*
+:VimseqToday
+        Open or create today's journal file in journals/YYYY_MM_DD.md.
+
+                                                        *:VimseqSearch*
+:VimseqSearch {query}
+        Search pages/ and journals/ for a fixed string. Uses rg when available
+        and falls back to a Lua scanner. Results go to quickfix.
+
+                                                        *:VimseqSearchByTag*
+:VimseqSearchByTag {tag}
+        Search pages/ and journals/ for a Logseq hashtag. Both `foo` and `#foo`
+        are accepted.
+
+                                                        *:VimseqBrowse*
+:VimseqBrowse
+        Open a scratch-buffer browser for journals and pages. Press <CR> on a
+        line to open it. Press q to close the browser.
+
+                                                        *:VimseqOpenAsset*
+:VimseqOpenAsset
+        Open a Logseq asset path from the current line using the OS default app.
+        Currently supports paths like ../assets/file.png and assets/file.png.
+
+                                                        *:VimseqPastePlain*
+:VimseqPastePlain
+        Paste the default register as continuation lines under the current block.
+
+                                                        *:VimseqPasteCodeBlock*
+:VimseqPasteCodeBlock
+        Paste the default register as an indented fenced code block under the
+        current block.
+
+                                                        *:VimseqPasteBullets*
+:VimseqPasteBullets
+        Paste the default register as sibling bullets.
+
+===============================================================================
+DEFAULT MAPPINGS                                            *vimseq-mappings*
+
+Mappings are buffer-local and only enabled for Markdown files inside a detected
+Logseq graph.
+
+Insert mode:
+>
+  <CR>       create a next sibling bullet
+  <M-CR>     insert a literal continuation line inside the current block
+<
+
+Normal mode:
+>
+  <CR>       create a next sibling bullet and enter insert mode
+<
+
+Terminal support for <M-CR> varies.
+
+===============================================================================
+OPTIONS                                                      *vimseq-options*
+
+Defaults:
+>
+  require('vimseq').setup({
+    graph_dir = nil,
+    journal_date_format = '%Y_%m_%d',
+    pages_dir = 'pages',
+    journals_dir = 'journals',
+    assets_dir = 'assets',
+    search_backend = 'auto', -- auto | rg | lua
+    open_quickfix_on_search = true,
+    enable_mappings = true,
+  })
+<
+
+===============================================================================
+ vim:tw=78:ts=8:noet:ft=help:norl:
