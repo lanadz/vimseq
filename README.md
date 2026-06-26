@@ -97,6 +97,15 @@ journals/
 
 ## Commands
 
+| Command | What it does |
+|---------|--------------|
+| `:VimseqToday` | Open/create today's journal (`journals/YYYY_MM_DD.md`) |
+| `:VimseqSearch {query}` | Plain-text search across pages/journals → quickfix (rg or Lua) |
+| `:VimseqSearchByTag {tag}` | Search by tag (`foo` or `#foo`) → quickfix |
+| `:VimseqBrowse` | List journals (recent first) + pages in quickfix; `<CR>` opens |
+| `:VimseqBrowseTags` | Tag index in quickfix by frequency; `<CR>` drills into a tag |
+| `:VimseqOpenAsset` | Open the asset referenced on the current line in the OS app |
+
 ### `:VimseqToday`
 
 Open or create today's journal entry using Logseq's journal naming format.
