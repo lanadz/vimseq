@@ -19,21 +19,13 @@ local function create_commands()
     require("vimseq.browse").open()
   end, { desc = "Browse Logseq pages and journals" })
 
+  vim.api.nvim_create_user_command("VimseqBrowseTags", function()
+    require("vimseq.browse").tags()
+  end, { desc = "Browse Logseq tags; <CR> drills into a tag" })
+
   vim.api.nvim_create_user_command("VimseqOpenAsset", function()
     require("vimseq.asset").open_under_cursor()
   end, { desc = "Open Logseq asset on current line" })
-
-  vim.api.nvim_create_user_command("VimseqPastePlain", function()
-    require("vimseq.edit").paste_plain()
-  end, { desc = "Paste register as continuation lines under current block" })
-
-  vim.api.nvim_create_user_command("VimseqPasteCodeBlock", function()
-    require("vimseq.edit").paste_code_block()
-  end, { desc = "Paste register as a fenced code block under current block" })
-
-  vim.api.nvim_create_user_command("VimseqPasteBullets", function()
-    require("vimseq.edit").paste_bullets()
-  end, { desc = "Paste register as sibling bullets" })
 end
 
 local function enable_current_buffer(buf)

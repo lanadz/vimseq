@@ -119,18 +119,30 @@ Expected behavior:
 
 Browse graph files from inside Vim.
 
-Initial implementation can be simple and dependency-free:
+Implementation:
 
-- collect files from `pages/` and `journals/`
-- show them in a scratch buffer or quickfix list
-- pressing `<CR>` opens the selected file
+- collect files from `journals/` and `pages/`
+- populate the quickfix list (journals first, most recent at the top)
+- open the quickfix window; pressing `<CR>` opens the selected file
 
 Later improvements:
 
-- sort journals by date descending
 - fuzzy-ish filtering without external plugins
 - show page title instead of raw filename
 - include assets optionally
+
+### `:VimseqBrowseTags`
+
+Browse the graph's tags as an index.
+
+Implementation:
+
+- scan `journals/` and `pages/` for `#tag`, `#tag/sub`, `#[[multi word]]`, and
+  `tags::` property values
+- populate the quickfix list with each tag and its occurrence count, most-used
+  first
+- pressing `<CR>` on a tag drills in: the quickfix list is replaced with every
+  block that uses that tag
 
 ### `:VimseqSearch {query}`
 
@@ -178,12 +190,9 @@ Tag search should understand at least these forms over time:
 tags:: foo, bar
 ```
 
-### Implemented paste/asset commands
+### Implemented asset commands
 
 ```vim
-:VimseqPastePlain
-:VimseqPasteCodeBlock
-:VimseqPasteBullets
 :VimseqOpenAsset
 ```
 
@@ -209,15 +218,9 @@ Suggested mappings:
 <M-CR>     insert literal newline inside current block
 ```
 
-Paste modes should be explicit:
-
-```vim
-:VimseqPastePlain      " paste as continuation lines under current block
-:VimseqPasteCodeBlock  " paste clipboard as fenced code block
-:VimseqPasteBullets    " paste each line as a sibling bullet
-```
-
-This solves the main bulk-dump problem: `Enter` can remain outline-friendly, while long snippets can be inserted without Logseq bulletizing every line.
+Since you edit the raw Markdown directly, Logseq's auto-bulletizing of pasted
+text no longer applies. Bulk dumps (logs, transcripts, code) can be pasted and
+shaped with normal Vim motions and visual-block edits.
 
 ## Images and screenshots
 
@@ -254,7 +257,7 @@ Start dependency-free and Neovim-native:
 - Lua plugin layout
 - graph detection and path helpers
 - quickfix-based search
-- scratch-buffer browse UI
+- quickfix-based browse UI
 - buffer-local mappings for Logseq Markdown files
 - no mandatory external plugins
 
@@ -267,9 +270,8 @@ lua/vimseq/config.lua   -- configuration
 lua/vimseq/graph.lua    -- graph/path helpers and :VimseqToday
 lua/vimseq/search.lua   -- :VimseqSearch and :VimseqSearchByTag
 lua/vimseq/browse.lua   -- :VimseqBrowse
-lua/vimseq/edit.lua     -- bullet mappings and paste commands
+lua/vimseq/edit.lua     -- bullet mappings
 lua/vimseq/asset.lua    -- :VimseqOpenAsset
-syntax/vimseqbrowse.vim -- browse buffer highlighting
 doc/vimseq.txt          -- help docs
 ```
 

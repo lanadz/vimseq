@@ -50,26 +50,21 @@ COMMANDS                                                    *vimseq-commands*
 
                                                         *:VimseqBrowse*
 :VimseqBrowse
-        Open a scratch-buffer browser for journals and pages. Press <CR> on a
-        line to open it. Press q to close the browser.
+        Populate the quickfix list with journals and pages and open the
+        quickfix window. Journals are listed first, most recent at the top,
+        followed by pages. Press <CR> on a line to open the file.
+
+                                                        *:VimseqBrowseTags*
+:VimseqBrowseTags
+        Build a tag index in the quickfix list: every tag in the graph with its
+        occurrence count, most-used first. Recognises #tag, #tag/sub,
+        #[[multi word]] and the tags:: property. Press <CR> on a tag to drill
+        in — the quickfix list is replaced with every block using that tag.
 
                                                         *:VimseqOpenAsset*
 :VimseqOpenAsset
         Open a Logseq asset path from the current line using the OS default app.
         Currently supports paths like ../assets/file.png and assets/file.png.
-
-                                                        *:VimseqPastePlain*
-:VimseqPastePlain
-        Paste the default register as continuation lines under the current block.
-
-                                                        *:VimseqPasteCodeBlock*
-:VimseqPasteCodeBlock
-        Paste the default register as an indented fenced code block under the
-        current block.
-
-                                                        *:VimseqPasteBullets*
-:VimseqPasteBullets
-        Paste the default register as sibling bullets.
 
 ===============================================================================
 DEFAULT MAPPINGS                                            *vimseq-mappings*

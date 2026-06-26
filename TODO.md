@@ -79,11 +79,10 @@ Starting decision: **Lua-first, quickfix-first, scratch-buffer browse, no plugin
 - [ ] Handle empty bullet behavior.
 - [ ] Implement indent/outdent block helpers.
 - [x] Implement literal newline inside block.
-- [x] Implement paste helpers:
-  - [x] `:VimseqPastePlain`
-  - [x] `:VimseqPasteCodeBlock`
-  - [x] `:VimseqPasteBullets`
 - [x] Avoid changing normal Markdown files outside the Logseq graph.
+
+> Note: paste helpers (`:VimseqPastePlain`/`PasteCodeBlock`/`PasteBullets`) were
+> removed — editing raw Markdown in Vim makes them redundant.
 
 ## Phase 7 — Page links and navigation
 

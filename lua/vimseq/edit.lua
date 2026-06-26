@@ -46,48 +46,6 @@ function M.literal_newline()
   vim.cmd("startinsert!")
 end
 
-local function default_register_lines()
-  local text = vim.fn.getreg('"')
-  return vim.split(text, "\n", { plain = true })
-end
-
-function M.paste_plain()
-  local line = vim.api.nvim_get_current_line()
-  local indent = continuation_indent(line)
-  local out = {}
-
-  for _, pasted in ipairs(default_register_lines()) do
-    table.insert(out, indent .. pasted)
-  end
-
-  vim.api.nvim_buf_set_lines(0, vim.api.nvim_win_get_cursor(0)[1], vim.api.nvim_win_get_cursor(0)[1], false, out)
-end
-
-function M.paste_code_block()
-  local line = vim.api.nvim_get_current_line()
-  local indent = continuation_indent(line)
-  local out = { indent .. "```text" }
-
-  for _, pasted in ipairs(default_register_lines()) do
-    table.insert(out, indent .. pasted)
-  end
-
-  table.insert(out, indent .. "```")
-  vim.api.nvim_buf_set_lines(0, vim.api.nvim_win_get_cursor(0)[1], vim.api.nvim_win_get_cursor(0)[1], false, out)
-end
-
-function M.paste_bullets()
-  local line = vim.api.nvim_get_current_line()
-  local prefix = bullet_prefix(line) or "- "
-  local out = {}
-
-  for _, pasted in ipairs(default_register_lines()) do
-    table.insert(out, prefix .. pasted)
-  end
-
-  vim.api.nvim_buf_set_lines(0, vim.api.nvim_win_get_cursor(0)[1], vim.api.nvim_win_get_cursor(0)[1], false, out)
-end
-
 function M.enable_buffer(buf)
   buf = buf or 0
 
